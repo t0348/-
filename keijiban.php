@@ -4,7 +4,6 @@
   <meta charset="utf-8">
  </head>
   <body>
-    
     <?php 
     //DB接続設定
     $dsn = 'データベース名';
@@ -24,9 +23,6 @@
       if(!empty($_POST["name"]) && !empty($_POST["text"])
       && !empty($_POST["pass"])){
        $pass=$_POST["pass"];
-       
-       
-       
        if('pass'==$pass){
        if(empty($_POST["editNo"])){
            //新規投稿
@@ -39,6 +35,7 @@
            $date = date("Y/m/d H:i:s");
            $sql -> execute();
        }else{
+        //編集
         $id = $_POST["editNo"];
         $name = $_POST["name"];
         $comment = $_POST["text"];
@@ -64,11 +61,10 @@
               $stmt->execute();
             }
           }
-          //編集
+          //編集する番号の指定
        if(!empty($_POST["edit"]) && !empty($_POST["editpass"])){
         $editpass=$_POST["editpass"];
         $edit=$_POST["edit"];
-        
             if('pass'==$editpass){
                $id = $_POST["edit"];
                $sql = 'SELECT * FROM keijiban WHERE id=:id';
@@ -80,7 +76,6 @@
         $i = $row['id'];
         $n = $row['name'];
         $c = $row['comment'];
-               
             }
            }
           }
@@ -130,9 +125,8 @@
         echo $row['name'].' ';
         echo $row['comment'].' ';
         echo $row['date'].'<br>';
-      echo "<hr>";
+      　echo "<hr>";
       }
-      
       ?>
     </body>
     </html>
