@@ -8,7 +8,7 @@
     //DB接続設定
     $dsn = 'データベース名';
     $user = 'ユーザー名';
-    $password = 'パスワード';
+    $password = 'パスワード名';
     $pdo = new PDO($dsn,$user,$password,array(PDO::ATTR_ERRMODE => PDO::
     ERRMODE_WARNING));
     $sql = "CREATE TABLE IF NOT EXISTS keijiban"
@@ -35,7 +35,6 @@
            $date = date("Y/m/d H:i:s");
            $sql -> execute();
        }else{
-        //編集
         $id = $_POST["editNo"];
         $name = $_POST["name"];
         $comment = $_POST["text"];
@@ -48,6 +47,8 @@
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
        }
+      }else{
+        echo "パスワードが違います<br>";
       }
     }
   }      
@@ -59,9 +60,11 @@
               $stmt = $pdo->prepare($sql);
               $stmt->bindParam(':id', $id, PDO::PARAM_INT);
               $stmt->execute();
+            }else{
+              echo "パスワードが違います<br>";
             }
           }
-          //編集する番号の指定
+          //編集
        if(!empty($_POST["edit"]) && !empty($_POST["editpass"])){
         $editpass=$_POST["editpass"];
         $edit=$_POST["edit"];
@@ -77,6 +80,8 @@
         $n = $row['name'];
         $c = $row['comment'];
             }
+           }else{
+             echo "パスワードが違います<br>";
            }
           }
           ?>
@@ -91,25 +96,25 @@
           <input type="hidden" name="editNo" value="<?php if(isset($i))
            echo $i; ?>">
            パスワード：
-           <input type="password" name="pass"><br>
+           <input type="password" name="pass" placeholder="パスワード"><br>
           <input type="submit" name="submit">
           </form>
           <br>
           【削除フォーム】
           <form action="" method="post">
-          投稿番号：<span style="margin-right:16px;"></span>
-          <input type="number" name="del"><br>
+          削除番号：<span style="margin-right:16px;"></span>
+          <input type="number" name="del" placeholder="削除対象番号"><br>
           パスワード：
-          <input type="password" name="delpass"><br>
+          <input type="password" name="delpass" placeholder="パスワード"><br>
           <input type="submit" name="delete" value="削除">
           </form>
           <br>
           【編集フォーム】
           <form action="" method="post">
-          投稿番号：<span style="margin-right:16px;"></span>
-          <input type="number" name="edit"><br>
+          編集番号：<span style="margin-right:16px;"></span>
+          <input type="number" name="edit" placeholder="編集対象番号"><br>
           パスワード：
-          <input type="password" name="editpass"><br>
+          <input type="password" name="editpass" placeholder="パスワード"><br>
           <input type="submit" name="editbutton" value="編集">
           </form>
           <br>
@@ -125,7 +130,7 @@
         echo $row['name'].' ';
         echo $row['comment'].' ';
         echo $row['date'].'<br>';
-      　echo "<hr>";
+      echo "<hr>";
       }
       ?>
     </body>
